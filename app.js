@@ -1,4 +1,4 @@
-export default [
+const galleryItems = [
   {
     preview:
       'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
@@ -63,3 +63,35 @@ export default [
     description: 'Lighthouse Coast Sea',
   },
 ];
+const galleryList = document.querySelector('.gallery');
+// galleryList.classList.add('gallery');
+
+const makeGalleryItem = ({ preview, original, description }) => {
+  const galleryItem = document.createElement('li');
+  galleryItem.classList.add('gallery__item');
+  
+  const galleryLinkEl = document.createElement('a');
+  galleryLinkEl.classList.add('gallery__link');
+  galleryLinkEl.href = original;
+
+  const galleryImage = document.createElement('img');
+  galleryImage.classList.add('gallery__image');
+  galleryImage.src = preview;
+  galleryImage.dataset.source = original;
+  galleryImage.alt = description;
+
+  galleryLinkEl.appendChild(galleryImage);
+    galleryItem.appendChild(galleryLinkEl);
+    return galleryItem;
+}
+// console.log(makeGalleryItem(galleryItems[0]));
+
+const galleryCollection = galleryItems.map(makeGalleryItem);
+// console.log(galleryCollection);
+
+
+
+// galleryList.textContent = 'Альо!'
+// galleryList.append(makeGalleryItem(galleryItems[0]));
+galleryList.append(...galleryCollection);
+console.log(galleryList);
