@@ -64,80 +64,65 @@ const galleryItems = [
   },
 ];
 
-// Render gallery
+// Render gallery on page
 
-const galleryCollection = document.querySelector('.js-gallery');
-const galleryMarkup = createGalleryMarkup(galleryItems);
-galleryCollection.insertAdjacentHTML('afterbegin', galleryMarkup);
+const galleryList = document.querySelector('.js-gallery');
 
-function createGalleryMarkup(items) {
-    return items.map(({ preview, original, description }) => {
-        return `
-        <li class="gallery__item">
-  <a
-    class="gallery__link"
-    href="${original}"
-  >
-    <img
-      class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</li>
-        `;
-    }).join('');
+const makeGalleryItem = ({ preview, original, description }) => {
+  const galleryItem = document.createElement('li');
+  galleryItem.classList.add('gallery__item');
+  
+  const galleryLinkEl = document.createElement('a');
+  galleryLinkEl.classList.add('gallery__link');
+  galleryLinkEl.href = original;
+  galleryLinkEl.dataset.action = 'open-ligthbox';
+
+  const galleryImage = document.createElement('img');
+  galleryImage.classList.add('gallery__image');
+  galleryImage.src = preview;
+  galleryImage.dataset.source = original;
+  galleryImage.alt = description;
+
+  galleryLinkEl.appendChild(galleryImage);
+    galleryItem.appendChild(galleryLinkEl);
+    return galleryItem;
 }
+const galleryCollection = galleryItems.map(makeGalleryItem);
+
+galleryList.append(...galleryCollection);
+console.log(galleryList);
+
+
 
 // Open and close lightbox
-// Closing lightbox by click on overlay
 
+
+// galleryList.setAttribute('data-action', 'open-lightbox');
+// console.log(galleryList.getAttribute);
 const closeLightboxBtn = document.querySelector('[data-action="close-lightbox"]');
-const lightbox = document.querySelector('.js-lightbox');
-const overlay = document.querySelector('.lightbox__overlay');
-const lightboxImage = document.querySelector('.lightbox__image');
+const lightbox = document.querySelector('js-lightbox');
 
-galleryCollection.addEventListener('click', onOpenLightbox);
-closeLightboxBtn.addEventListener('click', onCloseLightbox);
-overlay.addEventListener('click', onCloseLightbox);
+// galleryList.addEventListener('click', actionLightboxToggle);
+galleryList.addEventListener('click', onGalleryListClick);
 
-function onOpenLightbox(event) {
-    event.preventDefault();
-    // Quard Clause
-    if (event.target.nodeName !== 'IMG') {
-        return;
-    }
-    lightbox.classList.add('is-open');
-   
-    // Bigger image in lightbox
-    lightboxImage.src = `${event.target.dataset.source}`;
+// closeLightboxBtn.addEventListener('click', actionLightboxToggle);
 
-    const isCurrentImage = lightboxImage.src !== '';
-    if (!isCurrentImage) {
-        lightboxImage.src = '';
-    }
-    }
-    
- function onCloseLightbox() {
-        lightbox.classList.remove('is-open');
-    }
-
- // Closing lightbox by enter "Esc" button
-document.addEventListener('keydown', onEscBtnPress) 
-    
-function onEscBtnPress(event) {
-    if (!lightbox.classList.contains('is-open')) {
-        return;
-    }
-    if (event.code === 'Escape') {
-         lightbox.classList.remove('is-open');
-    }
+function actionLightboxToggle(event) {
+  console.log(event.target);
+  lightbox.classList.toggle('is-open');
 }
-// Sliding images by pressing => and <=
-document.addEventListener('keydown', onSlide)
-
-
-function onSlide(event) {
-    const currentIndex = galleryItems.indexOf(event.target.dataset.source)
+function onGalleryListClick(event) {
+  console.log(event.target);
 }
+
+// galleryCollection.addEventListener('click', actionLightboxToggle);
+// closeLightboxBtn.addEventListener('click', actionLightboxToggle);
+
+// function actionLightboxToggle(event) {
+//     event.preventDefault();
+//     // if (event.target.nodeName !== 'IMG') {
+//     //     return;
+//     // }
+//     console.log(event.target.nodeName);
+//   lightbox.classList.toggle('is-open');
+// }
