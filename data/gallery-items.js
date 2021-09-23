@@ -1,4 +1,5 @@
-const galleryItems = [
+export default [
+// const galleryItems = [
   {
     preview:
       'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
@@ -64,65 +65,9 @@ const galleryItems = [
   },
 ];
 
-// Render gallery on page
 
-const galleryList = document.querySelector('.js-gallery');
-
-const makeGalleryItem = ({ preview, original, description }) => {
-  const galleryItem = document.createElement('li');
-  galleryItem.classList.add('gallery__item');
-  
-  const galleryLinkEl = document.createElement('a');
-  galleryLinkEl.classList.add('gallery__link');
-  galleryLinkEl.href = original;
-  galleryLinkEl.dataset.action = 'open-ligthbox';
-
-  const galleryImage = document.createElement('img');
-  galleryImage.classList.add('gallery__image');
-  galleryImage.src = preview;
-  galleryImage.dataset.source = original;
-  galleryImage.alt = description;
-
-  galleryLinkEl.appendChild(galleryImage);
-    galleryItem.appendChild(galleryLinkEl);
-    return galleryItem;
-}
-const galleryCollection = galleryItems.map(makeGalleryItem);
-
-galleryList.append(...galleryCollection);
-console.log(galleryList);
+// import galleryItems from './data/app.js';
+// console.log(galleryItems);
 
 
 
-// Open and close lightbox
-
-
-// galleryList.setAttribute('data-action', 'open-lightbox');
-// console.log(galleryList.getAttribute);
-const closeLightboxBtn = document.querySelector('[data-action="close-lightbox"]');
-const lightbox = document.querySelector('js-lightbox');
-
-// galleryList.addEventListener('click', actionLightboxToggle);
-galleryList.addEventListener('click', onGalleryListClick);
-
-// closeLightboxBtn.addEventListener('click', actionLightboxToggle);
-
-function actionLightboxToggle(event) {
-  console.log(event.target);
-  lightbox.classList.toggle('is-open');
-}
-function onGalleryListClick(event) {
-  console.log(event.target);
-}
-
-// galleryCollection.addEventListener('click', actionLightboxToggle);
-// closeLightboxBtn.addEventListener('click', actionLightboxToggle);
-
-// function actionLightboxToggle(event) {
-//     event.preventDefault();
-//     // if (event.target.nodeName !== 'IMG') {
-//     //     return;
-//     // }
-//     console.log(event.target.nodeName);
-//   lightbox.classList.toggle('is-open');
-// }
